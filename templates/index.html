@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intrusion Detection System</title>
+    
+    <!-- Load Chart.js for rendering charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Load Leaflet.js for rendering the map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Link to custom CSS for dashboard styling -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+    <!-- Page Header -->
+    <h1>Intrusion Detection System Dashboard</h1>
+
+    <!-- Search Bar to Filter Alerts -->
+    <input type="text" id="searchBar" placeholder="Search alerts..." onkeyup="filterAlerts()">
+
+    <!-- Section: Threat Level Visualizations -->
+    <h2>Threat Analysis</h2>
+    <div class="chart-row">
+        <!-- Bar Chart: Current Threat Levels -->
+        <div class="chart-box">
+            <canvas id="threatChart"></canvas>
+        </div>
+        
+        <!-- Line Chart: Alerts Over Time -->
+        <div class="chart-box">
+            <canvas id="alertsOverTimeChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Section: Interactive Map -->
+    <h2>Attack Locations</h2>
+    <div id="mapContainer"></div>
+
+    <!-- Section: Alerts Table -->
+    <h2>Detected Alerts</h2>
+    <table id="alertTable">
+        <thead>
+            <tr>
+                <th>Alert</th>
+                <th>IP</th>
+                <th>Severity</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Alert rows will be inserted dynamically here -->
+        </tbody>
+    </table>
+
+    <!-- Pagination Controls for Alert Table -->
+    <div id="paginationControls">
+        <button id="prevPage" onclick="changePage(-1)">Previous</button>
+        <span id="pageNumber">Page 1</span>
+        <button id="nextPage" onclick="changePage(1)">Next</button>
+    </div>
+
+    <!-- Custom JavaScript for Chart and Map Initialization -->
+    <script src="/static/js/chart.js"></script>
+    <script src="/static/js/map.js"></script>
+
+    <!-- Inline JS: Filtering Function for Alerts -->
+    <script>
+    function filterAlerts() {
+        const searchText = document.getElementById("searchBar").value.toLowerCase();
+        const alerts = document.querySelectorAll("#alertTable tbody tr");
+
+        alerts.forEach(alert => {
+            alert.style.display = alert.textContent.toLowerCase().includes(searchText)
+                ? "table-row"
+                : "none";
+        });
+    }
+    </script>
+</body>
+</html>
